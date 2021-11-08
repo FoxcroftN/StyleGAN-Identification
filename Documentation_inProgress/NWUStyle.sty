@@ -12,9 +12,11 @@
 \usepackage{tocloft}
 \usepackage{hhline}
 \usepackage{array}
+\usepackage[margin=0in, includefoot]{geometry}
 
 \setlength{\fboxsep}{0pt}%
 \setlength{\fboxrule}{1pt}
+
 
 \bibliographystyle{apalike} %Specify the bibliography style (currently using an APA-like style, which is very close to the Harvard style).
 
@@ -25,7 +27,7 @@
   left=2.5cm,
 	right=2cm,
   top=2cm,
-	bottom=2.5cm 
+	bottom=2cm 
  }
 \renewcommand{\baselinestretch}{1.25} 
 \setlength{\parindent}{0mm}
@@ -103,6 +105,15 @@
 	\clearpage
 }% end code
 
+%Create the Abstract environment
+\newenvironment{Opsomming}[1]% environment name
+{% begin code
+	\chapter*{Opsomming}
+}%
+{
+	\clearpage
+}% end code
+
 %Create the table of abbreviations environment
 \newenvironment{TableOfAbbrev}% environment name
 {% begin code
@@ -161,7 +172,7 @@
 
 \pagestyle{empty}
 
-\changetext{\baselineskip}{0em}{0em}{0em}{-50pt}
+\changetext{\baselineskip}{0em}{0em}{0em}{-40pt}
 
 \AddToShipoutPictureBG*{%
   \AtPageUpperLeft{\raisebox{-\height}{\includegraphics[width=0.8\paperwidth]{img/NWU}}}%

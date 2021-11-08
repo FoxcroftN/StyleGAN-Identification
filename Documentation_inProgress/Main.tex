@@ -1,8 +1,9 @@
 \documentclass[a4paper,oneside,12pt]{book}
+\usepackage[utf8]{inputenc}
 \usepackage{helvet} 
 \usepackage[T1]{fontenc}
 \renewcommand\familydefault{\sfdefault}
-\usepackage{fancyhdr}
+
 \usepackage{pdfpages}
 \usepackage{float}
 
@@ -48,8 +49,7 @@
 \StudentNumber{28418077}
 \ORCID{0000-0002-8389-8826}
 \MScorPhD{Bachelors Honours}
-\Field{Computer Science and Information Technology} %Formal name of the research field, e.g., Mathematics, Chemistry, etc.
-%Provide the name of your main supervisor
+\Field{Computer Science and Information Technology}
 \Supervisor{Dr. R. Serfontein}
 %---------------------------------------------
 
@@ -61,15 +61,11 @@
 \begin{Acknowledgements}{}
 			I would like to thank the following persons for their support and guidance throughout this project that enabled me to complete it successfully.
 			
-			Dr. Rudi Serfontein, Thank you for your  in my research project and always being there to answer any questions I had. 
-			
-			My Supervisor for the project was Dr. Rudi Serfontein. Dr. Rudi guided me throughout 2021 and helped me in completing the project successfully and professionally. 
+			Dr. Rudi Serfontein, Thank you for your insight and support in my research project and always being there to answer any questions I had. Your guidance enabled me to complete the project successfully and professionally. 
 			
 			Prof   Tiny Du Toit, Thank you for the knowledge you shared with me regarding anything related to artificial intelligence. As a master in your craft it was helpful to learn from you. Thank you for making available your GPU that helped me train a portion of my artifact on.
 			
-			Special Thanks to Prof Tiny Du Toit that inspired me in the field of artificial intelligence and always was available to aid me with any questions that I may have.
-
-            Prof Tiny also let me MAKE use of his Graphics card for the optuna study.
+			Manre' van Zyl who I worked alongside in 2021 while both of us where conducting our research
 \end{Acknowledgements}
 %---------------------------------------------
 
@@ -77,11 +73,22 @@
 %-------------------EDIT----------------------
 %Type your abstract:
 \begin{Abstract}{}
-            CH1 : 15 pages
-            
-            CH2 : 15 pages
+
+The creation of a Style-Based Generator Architecture for Generative Adversarial Networks (StyleGAN) introduced the world to the possibility that images can be generated in such a way that it is difficult for a human to detect that these images are not real. A study conducted on StyleGAN and Convolutional Neural Networks helped in the identification of these images. A was created artefact that demonstrate the proposed neural network solution method. The created CNN proved that this method of detection resulted in promising results. To improve the detection accuracy further the hyperparameter optimization framework Optuna was implemented on the neural network and dataset to increase the model's accuracy drastically. Hyperparameter optimization is a powerful tool in machine learning that can structure a neural network architecture in such a way that massive gains are made in the networks predictions. To allow for easy interaction a Front-end web application formed part of the artefact  and the Flask framework was used for the model implementation and the user interface. Uploading images to the application will provide users with feedback whether or not a specific image was generated using StyleGAN or if the image is that of a real human being. 
+
+\textbf{Keywords:} Convelutional Neural Network, Flask, Hyperparameter Optimization, Machine Learning, Neural Networks, Optuna, StyleGAN
 			%Provide all of your keywords here (separated by semi-colons. This will appear below the abstract.
 \end{Abstract}
+
+\begin{Opsomming}{}
+
+
+Die skepping van 'n stylgebaseerde skeppende argitektuur vir generatiewe teëstanderige netwerke (StyleGAN) het die wêreld bekendgestel aan die moontlikheid dat beelde op so 'n manier gegenereer kan word dat dit moeilik is vir 'n mens om vas te stel dat hierdie beelde nie werklik regte beelde is nie. 'n Studie wat op StyleGAN en 
+Konvolusiese Neurale Netwerke gedoen is, het gehelp met die identifisering van hierdie beelde.  'n Artefak was geskep wat die voorgestelde neurale netwerk oplossing metode demonstreer. Die geskepte KNN het bewys dat hierdie metode van identifikasie belowende resultate tot gevolg gehad het. Om die identifikasie akkuraatheid verder te verbeter, is die hiperparameter optimeringsraamwerk Optuna op die neurale netwerk en datastel geïmplementeer om die model se akkuraatheid drasties te verhoog. Hiperparameter-optimering is 'n kragtige instrument in masjienleer wat 'n neurale netwerkargitektuur op so 'n manier kan struktureer dat massiewe winste gemaak word in die netwerkvoorspellings. Om maklike interaksie moontlik te maak was daar 'n webtoepassing deel van die artefak ontwikkel en die Flask-raamwerk is gebruik vir die modelimplementering en die gebruikerskoppelvlak. Die oplaai van beelde na die toepassing sal gebruikers terugvoer gee of 'n spesifieke beeld met StyleGAN gegenereer is en as die beeld dié van 'n regte mens is.
+
+\textbf{Sleutelwoorde:}  Flask, Hiperparameter-optimering, Konvolusiese Neurale Netwerk, Masjienleer, Neurale Netwerke, Optuna, StyleGAN
+
+\end{Opsomming}
 %---------------------------------------------
 
 
@@ -127,8 +134,10 @@
 
 \bibliography{MyBib.bib}
 
-%\appendix			
-%\input{APPethics}
-%\input{APPrp}
+\appendix			
+\input{appendix/APPethics}
+\input{appendix/APPrp}
+\input{appendix/APPnote1}
+\input{appendix/APPnote2}
 \end{document}
 

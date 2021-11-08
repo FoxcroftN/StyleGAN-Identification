@@ -1,4 +1,4 @@
-\chapter{Development of the Artefact}
+\chapter{Development of the Artefact}\label{ch3}
 
 The problem of StyleGAN generated faces aiding in the malicious creation of false identities confirmed in the crackdown of Facebook profiles as shown by \cite{Chandler2016} and in the new addition of StyleGAN3 where the creator Nvidea also emphasized the problem and research aiming to detect these images \citep{Karras2021}.
 
@@ -100,7 +100,7 @@ Total Dataset Size &  & 4000 &  & 8000 &  & 16000 \\ \hline
 }
 \end{table}
 
-Table \ref{tab:sizes} and Table \ref{tabl:folders} shows the layout of the directories that must be consistent throughout the training of the neural network model in the artefact creation. In binary image classification, the process of training a neural network to classify two sets of images into two separate classes, the neural network references the directory in which an image resides for its check on its prediction. This means that in the training stages the neural network will makes its prediction on a image, and check if that image is in the real human directory (\textbf{ff}) or in the StyleGAN generated images directory (\textbf{sg}) and then change its weights according to the correlation between its prediction and the directory path of the image receives. In short the neural network will use the directories to "\textit{know}" what type of image the received training image is. 
+Table \ref{tab:sizes} and Table \ref{tabl:folders} shows the layout of the directories that must be consistent throughout the training of the neural network model in the artefact creation. In binary image classification, the process of training a neural network to classify two sets of images into two separate classes, the neural network references the directory in which an image resides for its check on its prediction. This means that in the training stages the neural network will makes its prediction on a image, and check if that image is in the real human directory (ff) or in the StyleGAN generated images directory (sg) and then change its weights according to the correlation between its prediction and the directory path of the image receives. In short the neural network will use the directories to "\textit{know}" what type of image the received training image is. 
 
 The validation folder in the directory is the set of images the neural network uses to check its accuracy after each training step, while training its weights. The neural network changes its weights after each image in the training set and just uses the validation set as a benchmark for each checkpoint in training. The Test set is important as it will be used to evaluate the final model. The Test set must be kept aside and never accessed in the training phase of the model. Thus a Test set was created early with unique images the will not be accessed again in the training phases.
 
@@ -112,7 +112,7 @@ The StyleGAN problem was applied to this exercise by using the StyleGAN dataset 
 
 \begin{figure}[H]%
 \centering
-\fbox{\includegraphics[width=1\textwidth]{img/f13.png}}%
+\fbox{\includegraphics[width=0.95\textwidth]{img/f13.png}}%
 \caption{Input layer of the neural network according to the image sizes}%
 \label{fig:13}%
 \end{figure}
@@ -121,7 +121,7 @@ In Figure \ref{fig:12} a comparison between a dog image retrieved from the Cat-v
 
 \begin{figure}[H]%
 \centering
-\fbox{\includegraphics[width=1\textwidth]{img/f12.png}}%
+\fbox{\includegraphics[width=0.9\textwidth]{img/f12.png}}%
 \caption{Image sizes of Cat-vs-Dog dataset, rescaled artefact dataset and StyleGAN original sizes}%
 \label{fig:12}%
 \end{figure}
@@ -132,7 +132,7 @@ When the StyleGAN images was passed into the Cat-vs-Dog neural network with a ch
 
 As mentioned in the previous section, the dataset of images gathered for the identification of StyleGAN images had to be processed to allow the neural network to train on these images. Image processing is an entire field on its own with theory relating to it. For the image processing needs required in this stage of the artefact development the python library OpenCV was identified to be the simplest solution to the problem being faces. 
 
-OpenCV is a programming library geared mostly at real-time computer vision. It was created by Intel and then supported by Willow Garage and Itseez. Under the open-source Apache 2 License, the library is cross-platform and free to use \citep{opencv2012}. A python script was created to change the entire dataset sequentially and the need to manually scale the image was avoided. The script was used to create different datasets for later use in this proposed project. The image resolutions of the different datasets created included a 200x200px, 512x512px and 1024x1024px.
+OpenCV is a programming library geared mostly at real-time computer vision. It was created by Intel and then supported by Willow Garage and Itseez. Under the open-source Apache 2 License, the library is cross-platform and free to use \citep{opencv2012}. A python script was created to change the entire dataset sequentially and the need to manually scale the image was avoided. The script was used to create different datasets for later use in this proposed project. The image resolutions of the different datasets created included a 200x200 pixels, 512x512px and 1024x1024px.
 
 %too many trainable parameters
 %take to long exaust resources
@@ -146,37 +146,67 @@ The first sprint in the development of the artefact required the dataset to be r
  
 In the second sprint of the artefact development the first neural network was created based on the findings in the first sprint and using that dataset gathered and processed in the first sprint. The initial neural network that was created in this phase of the artefact development just required hot and cold learning and was not optimized in any form. Hot and Cold learning as analysed in Chapter \ref{ch1} is an uninformed guessing game in hyperparemeter optimization.
 
-To create the neural network the TensorFlow package was used. TensorFlow is a machine learning and artificial intelligence software library that is free and open-source. It may be used for a variety of applications, but it focuses on deep neural network training and inference \citep{tensor2016}. TensorFlow was used within the Jupyter Notebooks in Google Colab and locally, and was run in the python environment. Keras is an open-source software library for artificial neural networks that includes a Python interface \citep{kerascnn2017}. Keras serves as a user interface for TensorFlow. Keras supports the TensorFlow packadge and is used for creating the neural network in the development of the artefact \citep{kerascnn2017}.
- 
-train nn
-evaluate the acc
+\subsubsection{Creating the First Neural Network}
 
-see there can be improvements
+To create the neural network the TensorFlow package was used. TensorFlow is a machine learning and artificial intelligence software library that is free and open-source. It may be used for a variety of applications, but it focuses on deep neural network training and inference \citep{tensor2016}. TensorFlow was used within the Jupyter Notebooks in Google Colab and locally, and was run in the python environment.
+
+ Keras is an open-source software library for artificial neural networks that includes a Python interface \citep{kerascnn2017}. Keras serves as a user interface for TensorFlow. Keras supports the TensorFlow packadge and is used for creating the neural network in the development of the artefact \citep{kerascnn2017}.
+ 
+The initial neural network was then created using TensorFlow and Keras in Google Colab. The Code for the notebooks used can be found in Appendix \ref{AppendixC} and \ref{AppendixD}. As seen in Figure \ref{fig:nn1} the neural network consisted of 3 convolutional layer, a single dense layer and had a total amount of trainable parameters exceeding 17 million. The large amounts of trainable parameters would result in the resources available in Google Colab to be exhausted in training. A hot and cold learning approach was taken and with the smaller test dataset the model was trained and changed until some improvements could be seen. The trained accuracy of this neural network was 51\% at this stage but could be improved more. 
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.65\textwidth]{img/fnnarch1.png}}%
+\caption{Summary of Cat-vs-Dog network applied to the StyleGAN problem}%
+\label{fig:nn1}%
+\end{figure}
+
+More layers and dropout layers where added to the different convolutions using hot and cold learning. Figure \ref{fig:nn2} is a summary of the neural network architecture of a model created for the identification of StyleGAN images using the principles of hot and cold learning applied on the hyperparameters of the model.  
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/nn2.png}}%
+\caption{Summary of created Neural Network}%
+\label{fig:nn2}%
+\end{figure}
+
+The final self created neural network trained on the training dataset could identify the StyleGAN generated images with 81\% accuracy using the test data. The relatively high true accuracy showed promising result but because of the randomness in hot and cold learning and what was identified in the literature review of Chapter \ref{ch2} the hyperparameters had to be optimized.
+
 
 \subsection{Sprint 3}
 
-optuna 
+Hot and Cold learning is a viable option for setting neural network parameters when developing neural networks and learning how they can be used to solve problems \citep{Trask2019}. But for the identification of StyleGAN images hot and cold learning proved to be an inefficient manner in which to create the neural network architecture. Optuna was defined as a possible technology to omit the hot and cold learning process and create a highly optimized neural network.  
 
-what is optuna
+\subsubsection{Optuna: A hyperparameter optimization framework}
 
-hyper parameters
+Optuna is a software framework for automated hyperparameter optimization that is specifically developed for machine learning. It has an imperative, define-by-run user interface. The code built with Optuna has a high level of flexibility thanks to its define-by-run Interface, and the user of Optuna may dynamically design the search spaces for the hyperparameters. The phrases "study" and "trial" are used as follows: A Trial is a single execution of the objective function, whereas a Study is optimization based on an objective function \citep{optuna2019}.
 
-studies
+When the Optuna hyperparameter process was started in this sprint the trail function and study functions was created based on the documentation of the Optuna framework. The trail is a single iteration in the larger study and the study is a collection of trails where different combinations of hyperparameters are used to reach the goal of the trail. The study goal for identifying StyleGAN images was to increase the accuracy and \cite{optuna2019} terms it was to move the accuracy metric in a maximum position. The trail function was set to suggest a neural network layer count ranging from a single layer network to a 7 layer network. The optimizer was suggested from a pool of optimizers that perform well with image classification problems as was identified by \cite{bera2020analysis} and \cite{kandel2020comparative}. The Study could be changed to also train full neural networks on each trail but it was decided to train the networks the minimal amount just to evaluate the improvements of the models. When the study completed the resulting model was then trained on the full dataset.
 
-trails
+When the Optuna study was executed on Google Colab a problem was faced regarding available resources. Google Colab provides a free service but can throttle users resources based on the amount of resources used. The policies that Google use to dictate what will amount in throttling is unclear and Google can throttle any account based on their discretion. When the Optuna study started the account used on Google Colab for the development of the artefact was throttled down and exceeded the acceptable usage dictated by Google. To work around the problem the jupyter notebooks was downloaded and run on a physical computer provided by Prof. Tiny du Toit. The computer used for the study included a GPU, namely a GTX 1080 with 8GB dedicated graphics memory.
 
-resource problem
+\textbf{Graphics cards differences: comapre colab and nvidea gpu}
 
-use tiny gpu
-comapre colab and nvidea gpu
+\textbf{Image of Optuna output in Study}
 
-train
+\textbf{Train}
 
-results
+\textbf{Image of training}
+
+The model created using the Optuna framework for hyperparameter optimization was trained on the full dataset on the local machine as previously stated and training times was increased due to the improved  machine learning factor of the improved GPU. The trained hyperparameter optimized model could identify StyleGAN generated images with an accuracy of 97.3\% and a true accuracy of 97.6\% as tested with the python script. The results of the Optuna network compared to the network created in Sprint 1 will be further discussed on the Results chapter in this document.
+
 
 \subsection{Sprint 4}
 
-front end minimal apps
+With the neural network model completed and trained to a exceptional accuracy a front-end application was created to allow users to easily and intuitively interact with the model as stipulated as one of the objectives of this project. By allowing users to interact with the model easily the aim of identifying StyleGAN images can be satisfied as users will be able to pass images to the neural network that in turn will be able to identify if these images was generated by StyleGAN or if the images are that of real human beings. 
+
+For the front end of the artefact a web application, that will allow for easier deployment and wider reach had to be created to satisfy the objectives of this proposed project. In the final sprint of the artefact development various frameworks where considered and while developing the artefact it was realised that a python-based web framework will enable the implementation of the neural network. 
+
+\subsubsection{Adding the model to the Web App}
+
+Because the neural network model was created using the python libraries for machine learning it was realised that a python based framework will allow the neural network to be implemented in the web app. If another front end framework like React or Angular was used the neural networks implementation would be unnecessarily complex. React and Angular are JavaScript based frameworks and for the Python model to communicate with the front end of a JavaScript framework an API had to be implemented. The neural network requires the python machine learning libraries TensorFlow and Keras to pass an image through the model and provide the identification as feedback. Thus the libraries must reside in a python environment where TensorFlow and Keras is installed. 
+
+To avoid this added complexity an analysis into python web based frameworks where conducted and the Django framework stood out. The Django framework however is a very large and clunky framework when compared to the implementation required for the artefact. The child framework Flask, that was derived from Django but with a lightweight footprint was used for the creation of the front-end of the artefact. The Flask app was developed as a minimalistic interface that would guide users intuitively on how to use the app with clear instructions and a simplified design. 
 
 python requires backend
 
@@ -187,6 +217,16 @@ django
 flask better
 
 artefact looks
+
+home page
+
+UI UX error and 404 
+
+Identified StyleGAN
+
+Identified FF
+
+
 
 \section{Summary}
 

@@ -1,1 +1,28 @@
 \chapter{Results}
+
+The Artefact that was created in Chapter \ref{ch3} could identify StyleGAN images with a very high accuracy. The various results achieved in the development of the Artefact will be discussed and evaluated. The initial neural network accuracy will be discussed and example output from the artefact making the predictions will be demonstrated. For the hyperparameter optimized neural network that acts as this projects final model will be compared to the initial model and the model created by \cite{Wang} to demonstrate the large gains made to the model performance using optimization in a constrained resources environment. 
+
+\section{The First Neural Network}
+
+The neural network created in Sprint 1 produced a detection accuracy of 61\% by just replacing StyleGAN generated and real human images with the Cat-vs-Dog images in the introduction to CNN's exercise. The accuracy achieved acted as a proof of concept. Using Hot and Cold learning techniques improved the model to a tested accuracy of 81\%. This increase in accuracy and already high starting accuracy shows how powerful CNN's can be in a world with increasing artificially generated images. Figure shows the self created model implemented in the front-end artefact predicting on StyleGAN images and real human images from the FlickrFaces dataset. Although the model's prediction confidence is low, the predictions still act advantages compared to a random guess. A random guess and a neural network accuracy of 50\% can be seen as providing the same value. If a model predicts with only 50\% accuracy then code that mimics a coin flip prediction by random selection will provide the same results to the user. Therefore with the first neural network model starting with a accuracy higher that 60\% and the then reworked model providing a accuracy of 80\% was the value added by this project successful from the first iteration of the artefact development.
+
+
+Self created model accuracy
+
+Self classifying real and fake
+
+the self created model miss classifying neeils
+
+The optuna model accuracy
+
+Optuna calasifying a human and a SyleGAN
+
+Optuna Miscalssifying
+
+Improved classification neels
+
+Optuna on StyleGAN2
+
+Table of all network accuracies
+
+Conclusion
