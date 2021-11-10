@@ -24,7 +24,7 @@ An artificial neuron is a single node within a neural network. This neuron is an
 
 \cite{Krenker2011} states that the neuron structure consists of three separate stages. The first stage applies the weight to the input with multiplication. The second stage is a sum function of all the previous stage weights and biases applied to the initial input. The final stage of the artificial neuron determines if the neuron should be activated or deactivated \citep{Krenker2011}. Artificial neurons activated or deactivated artificially enable the neural network to "think" and adaptively apply its computation on inputs.
 
-\begin{figure}[!htbp!]%
+\begin{figure}[H]%
 \centering
 \fbox{\includegraphics[width=0.95\textwidth]{img/f4.png}}%
 \caption{Biological Neuron and Artificial Neuron \cite{Krenker2011}}%
@@ -149,9 +149,6 @@ Different types of activation functions can be used and implemented on the layer
 
 In the review on activation functions it is apparent that activation functions is a crucial aspect of neural networks and the successful output that neural network can present. Activation functions have a bigger impact on the prediction accuracy of a neural network than the number of layers present within the neural network. There is still some guessing involved into which functions will result in the best accuracy predictions of the neural network but to some degree, there is a clear consensus as to what function will work best with specific types of data. Image classification is improved with the use of ReLU functions throughout the neural network layers and a Sigmoid activation functions as it finals output layer.
 
-
-\subsection{Summary}
-
 With the evaluation of CNN and GAN, an understanding of neural networks in the context of the aim of this project was conducted. CNN provides enhanced capabilities in the generation and classification of image data. While GAN provides specific alterations to images and specialized focus on own output validation and improvement. For the neural network training on a dataset containing authentic images and StyleGAN generated images, supervised learning is the appropriate choice. The architecture and learning paradigms choices for neural networks should be influenced by the type of application and datasets used within training, and because of this, a CNN neural network with semi-supervised learning will be used in the development of the project's artefact.
 
 \section{StyleGAN}
@@ -168,27 +165,27 @@ Figure \ref{fig:7} illustrates the original StyleGAN network architecture and co
 
 \begin{figure}[H]%
 \centering
-\fbox{\includegraphics[width=0.7\textwidth]{img/f7.png}}%
+\fbox{\includegraphics[width=0.6\textwidth]{img/f7.png}}%
 \caption{Network architecture of StyleGAN vs Traditional GAN's \citep{Karras2019}}%
 \label{fig:7}%
 \end{figure}
 
 Differences in authentic images and StyleGAN images are minimal. The most noticeable differences are the artefacts that StyleGAN generates due to deficiencies within the StyleGAN technology. These artefacts vary from rain-drop blotches in images to hair strands not showing realistic definition \citep{Karras2020}. In the second iteration of StyleGAN, the artefacts were addressed with minor improvisations but remain present in StyleGAN2 images \citep{Karras2020}.
 
-\begin{figure}[!htbp!]%
+Figure \ref{fig:8} illustrates artefacts present in StyleGAN generated images. This water drop effect present in these images could be more accessible for humans to identify than for a neural network due to the generalization of raster data \citep{Karras2020}.
+
+\begin{figure}[H]%
 \centering
 \fbox{\includegraphics[width=0.95\textwidth]{img/f8.png}}%
 \caption{Artefacts present in StyleGAN generated images adapted from \cite{Karras2020}}%
 \label{fig:8}%
 \end{figure}
 
-Figure \ref{fig:8} illustrates artefacts present in StyleGAN generated images. This water drop effect present in these images could be more accessible for humans to identify than for a neural network due to the generalization of raster data \citep{Karras2020}.
-
 \subsection{Detection of CNN Generated Images}
 
 To detect StyleGAN generated images, the discriminator of the initial neural network can, in theory, be isolated and used to detect images created by the generator. The generator recurrently aimed to fool the discriminator, and the discriminator constantly adapted to the generator \citep{Karras2020}. The isolation of the discriminator is an invalid approach to detection because of how learning takes place within the creation of the StyleGAN network and when stoppage occurred in the training phase of the initial technology. The discriminator stops training before the generator, and thus an isolated discriminator will not be able to detect the output of the improved generator. In StyleGAN, the discriminator is not available to the public and to isolate it would require retraining of the GAN with the initial datasets of Flickr Faces images. A basic technique of supervised training to detect CNN generated images was implored by the researchers, and their results proved successful in detecting generated CNN images \citep{Wang}.
 
-\begin{table}[!htbp!]%
+\begin{table}[H]%
 \caption{Results of \cite{Wang} detecting various CNN's generating images}
 \label{tabl:1}
 \centering

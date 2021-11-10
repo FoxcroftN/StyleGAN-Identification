@@ -6,11 +6,13 @@ In this projects literature study it was identified that a machine learning deep
 
 \section{Artefact Description}
 
-The artefact for this proposed project can be divided into two main aspects namely the neural network model that will train on 2 separate datasets to classify new images between the characteristics of the data classes it learned in trained. The second aspect is the minimal front-end that will allow users to easily interact with the neural network model and receive simple output on the identification of their uploaded images. The neural network was created using the python programming language in a Jupyter notebook that was compiled and executed on the Google Colab virtual cloud-based environment. To create the neural network popular machine learning packages in the python language was used namely Keras and TensorFlow. The neural network was evaluated and determined to be sufficient, but improvisations could be made using the new technology Optuna for hyperparameter optimization. The neural network was then implemented in a minimalistic front end web app using the python web framework Flask.
+The artefact for this proposed project can be divided into two main aspects namely the neural network model that will train on 2 separate datasets to classify new images between the characteristics of the data classes it learned in trained. The second aspect is the minimal front-end that will allow users to easily interact with the neural network model and receive simple output on the identification of their uploaded images. The neural network was created using the python programming language in a Jupyter notebook that was compiled and executed on the Google Colab virtual cloud-based environment. 
+
+To create the neural network popular machine learning packages in the python language was used namely Keras and TensorFlow. The neural network was evaluated and determined to be sufficient, but improvisations could be made using the new technology Optuna for hyperparameter optimization. The neural network was then implemented in a minimalistic front end web app using the python web framework Flask.
 
 \section{Artefact Life Cycle}
 
-The development of the artefact was conducted with the use of DSRM and an Agile combination as stated in  Chapter \ref{ch1}. The DSRM  
+The development of the artefact was conducted with the use of DSRM and an Agile combination as stated in  Chapter \ref{ch1}. The DSRM  methodology enabled new technologies to be used and implemented in the artefact whilst simultaneously learning about the technologies. An example of how DSRM aided in the development of the artefact is the implementation of Optuna. The new technology Optuna helped increase the performance of the CNN exceedingly and because of DSRM, Optuna could be implemented and studied at the same time. The combination of Agile with DSRM aided in the development of the artefact, specifically in regards to the machine learning implementation. Machine learning and Neural networks require data and time, and with the use of Agile sprints. The dataset could be prepared and finalized in a small section of the total artefact development life cycle. The next step was implementing the neural network and optimizing it, and because of the use of sprints in this project these topics could be subdivided into two separate sprints. The fragmentation of the total workload allowed for the successful completion of the artefact.
 
 \section{Description of the Development of the Artefact}
 
@@ -170,6 +172,19 @@ More layers and dropout layers were added to the different convolutions using ho
 \label{fig:nn2}%
 \end{figure}
 
+\subsubsection{Generalization}
+
+The dataset used in the development of the artefact was very diverse from the start. The diversity in the data allowed the created CNN to generalize the features present in the StyleGAN images that allowed for their detection. But to improve the model further without overfitting the data some image augmentation principles where used to improve the generalization of the data and improve the final artefact's useablitiy.
+
+Image augmentation improve the models accuracy while providing more generalization features to the final model \citep{Wang}. The image augmentation process in this artefact was implemented in the training function of the CNN. When training the images passed to the neural network was randomly flipped (vertically \& horizontally), scaled (large \& smaller) and rotated ($180\deg$, $90\deg$, $-180\deg$ \& $-90\deg$). This process increased to overall sample size of the neural network greatly without a increase in total amount of images used in training. It is important to note that this process should not be implemented on the validation set as the validation accuracy metric describes the models learning rate \citep{Wang}. Figure \ref{fig:faug} illustrated a visual representation of how the images was passed to the neural network in training to improve generalization in the final model.
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/faug.png}}%
+\caption{How image augmentation passes the images to the NN}%
+\label{fig:faug}%
+\end{figure}
+
 The final self-created neural network trained on the training dataset could identify the StyleGAN generated images with 81\% accuracy using the test data. The relatively high true accuracy showed promising results but because of the randomness in hot and cold learning and what was identified in the literature review of Chapter \ref{ch2}, the hyperparameters had to be optimized.
 
 
@@ -185,13 +200,9 @@ When the Optuna hyperparameter process was started in this sprint the trail func
 
 When the Optuna study was executed on Google Colab a problem was faced regarding available resources. Google Colab provides a free service but can throttle users resources based on the amount of resources used. The policies that Google use to dictate what will amount to throttling is unclear and Google can throttle any account based on their discretion. When the Optuna study started the account used on Google Colab for the development of the artefact was throttled down and exceeded the acceptable usage dictated by Google. To work around the problem the jupyter notebooks was downloaded and run on a physical computer provided by Prof. Tiny du Toit. The computer used for the study included a GPU, namely a GTX 1080 with 8GB dedicated graphics memory.
 
-\textbf{Graphics cards differences: compare collab and Nvidia gpu}
+\subsubsection{GPU's in machine learning}
 
-\textbf{Image of Optuna output in Study}
-
-\textbf{Train}
-
-\textbf{Image of training}
+It was discovered while developing the artefact that GPU's are required for the training of the neural network. In the development, the Google Colab account was restricted by Google because of the resource limit reached on the account. An investigation into the processing capabilities of GPU's revealed that most GPU's on the market can be used for training neural networks. CNN applied to the problem of detecting StyleGAN images could require more processing power because of the large dataset of images. The GPU used on a local machine was a Nvidea GTX 1080 and the GPU used in Google Colab was a Nvidea K80. With the analysis of GPU's, it was found that a GTX 1080 has a better machine learning coefficient than a K80 \citep{cuda2021}. The Nvidea K80 is evaluated by Nvidea to have a deep learning coefficient of 3.7 and the Nvidea GTX 1080 has a deep learning coefficient of 6.1 \citep{cuda2021}. This is a processing increase of more than double the amount offered by Google Colab. The training that was conducted on the GTX 1080 was completed faster than the training conducted on the K80.
 
 The model created using the Optuna framework for hyperparameter optimization was trained on the full dataset on the local machine as previously stated and training times were increased due to the improved machine learning factor of the improved GPU. The trained hyperparameter optimized model could identify StyleGAN generated images with an accuracy of 97.3\% and true accuracy of 97.6\% as tested with the python script. The results of the Optuna network compared to the network created in Sprint 1 will be further discussed in the Results chapter in this document.
 
@@ -204,23 +215,51 @@ For the front end of the artefact a web application, that will allow for easier 
 
 \subsubsection{Adding the model to the Web App}
 
-Because the neural network model was created using the Python libraries for machine learning it was realised that a python-based framework will allow the neural network to be implemented in the web app. If another front end framework like React or Angular was used the implementation of the neural network would be unnecessarily complex. React and Angular are JavaScript based frameworks and for the Python model to communicate with the front end of a JavaScript framework an API had to be implemented. The neural network requires the python machine learning libraries TensorFlow and Keras to pass an image through the model and provide the identification as feedback. Thus the libraries must reside in a python environment where TensorFlow and Keras are installed. 
+Because the neural network model was created using the Python libraries for machine learning it was realised that a python-based framework will allow the neural network to be implemented in the web app. If another front end framework like React or Angular was used the implementation of the neural network would be unnecessarily complex. React and Angular are JavaScript based frameworks and for the Python model to communicate with the front end of a JavaScript framework an API had to be implemented. The neural network requires the python machine learning libraries TensorFlow and Keras to pass an image through the model and provide the identification as feedback. Thus the libraries must reside in a python environment where TensorFlow and Keras are installed. Figure \ref{fig:lay} shows how different frameworks require different aspects in implementation. 
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/flayout.png}}%
+\caption{Front-end Frameworks implementation comparison}%
+\label{fig:lay}%
+\end{figure}
 
 To avoid this added complexity an analysis into python web-based frameworks where conducted and the Django framework stood out. The Django framework however is a very large and clunky framework when compared to the implementation required for the artefact. The child framework Flask, which was derived from Django but with a lightweight footprint was used for the creation of the front-end of the artefact. The Flask app was developed as a minimalistic interface that would guide users intuitively on how to use the app with clear instructions and a simplified design. 
 
-python requires backend
+\subsubsection{The Front End}
 
-we use TensorFlow and Keras
+The Artefact's final form will be the hosted model on the frontend of the application. The following section will illustrate the different front end features of the artefact. The artefacts design was focused to follow a simplistic clear page layout. Minimal controls prevent users from interacting with the web app incorrectly that might lead to errors, and this minimal error handeling had to be implemented.
 
-Django
+Figure \ref{fig:home} shows the home page of the artefact front end. The simple design and clear instructions will make it easy for users to interact with the website and use it to identify StyleGAN images. Users can click on the upload control to upload images to the neural network model that will identify if the images are StyleGAN generated images. 
 
-flask better
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/home.png}}%
+\caption{Home page of the Artefact}%
+\label{fig:home}%
+\end{figure}
 
-artefact looks
+To improve the user-friendliness of the web app some error handling had to created. A page not found page was implemented to navigate the user back to the homepage of the application in the event of misbrowsing from the user. Figure \ref{fig:404} shows the page that will be displayed if a user navigates to an non existing url. a single button is presented that will navigate the user back to the home page of the web app.
 
-home page
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/404.png}}%
+\caption{Page-not-found in the Artefact}%
+\label{fig:404}%
+\end{figure}
 
-UI UX error and 404 
+To further improve the user experiance a page was created to inform a user in the event of requesting identification without uploading an image. Figure \ref{fig:500} shows the page that will be presented if a user request identification of an image, but did not upload an image. The user can navigate back to the home page of the web app and try to upload an image to restart the process.
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/500.png}}%
+\caption{No image uploaded page in the Artefact}%
+\label{fig:500}%
+\end{figure}
+
+Figures \ref{fig:404} and \ref{fig:500} shows how a little user-friendliness consideration in the artefact design can lead to a simplified application and increased usability. 
+
+%This implementation will increase the reach of the website by catering for the average user to effectively utilize the application.
 
 Identified StyleGAN
 
