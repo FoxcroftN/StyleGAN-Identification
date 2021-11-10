@@ -73,7 +73,7 @@ The datasets had to be compiled together into one dataset that was used within t
   }
 \end{table}
 
-Initially, the subset created from the StyleGAN and FlickrFaces datasets retrieved consisted of 20 000 images. The number of images used for the identification of StyleGAN images was decided based on the findings of \cite{Nasr2016}, that concluded the more images a neural network can use in image classification the better its prediction will be. To an extent, this is true for the problem of StyleGAN generated images versus images of real human faces due to the fine differences between the two types of images. The neural network won't classify the images based on the shape as in the Cat-vs-Dog problem but will rather focus on the small artefacts or features that are present in StyleGAN images for its classification. 
+Initially, the subset created from the StyleGAN and FlickrFaces datasets retrieved consisted of 20 000 images. The number of images used for the identification of StyleGAN images was decided based on the findings of \cite{Nasr2016}, which that concluded the more images a neural network can use in image classification the better its prediction will be. To an extent, this is true for the problem of StyleGAN generated images versus images of real human faces due to the fine differences between the two types of images. The neural network won't classify the images based on the shape as in the Cat-vs-Dog problem but will rather focus on the small artefacts or features that are present in StyleGAN images for its classification. 
 
 Using too large a dataset can lead to the neural network overfitting the data \citep{Trask2019}. Overfitting occurs when the created neural network model becomes exceptionally good at being classifying the dataset it trained on, but performs much worse when classifying data that it was not trained on. Because of the scope of the proposed project the neural network that is created does not have to be the "\textit{perfect}" model, and will in a sense overfit facial recognition features as that is the premise for the creation of the model. What this means is that if the model created gets an input image of a car and classifies it as a real human or a StyleGAN generated image, this form of overfitting is acceptable in the context of the scope of this project. Figure \ref{fig:11} illustrates the acceptable amount of overfitting that can be expected from the neural network. The network however must not overfit the images included in the training set of real human faces retrieved from the FlickrFaces dataset, as then it will classify all images as StyleGAN if it was not in the FlickrFaces training set. This issue is addressed in the second sprint when the initial neural network is created. 
   
@@ -136,10 +136,6 @@ As mentioned in the previous section, the dataset of images gathered for the ide
 
 OpenCV is a programming library geared mostly at real-time computer vision. It was created by Intel and then supported by Willow Garage and Itseez. Under the open-source Apache 2 License, the library is cross-platform and free to use \citep{opencv2012}. A python script was created to change the entire dataset sequentially and the need to manually scale the image was avoided. The script was used to create different datasets for later use in this proposed project. The image resolutions of the different datasets created included a 200x200 pixels, 512x512px and 1024x1024px.
 
-%too many trainable parameters
-%take too long exhaust resources
-%the more data the better but nn can work with little
-
 \subsubsection{Summary}
 
 The first sprint in the development of the artefact required the dataset to be retrieved, structured and the images processed. The dataset was downloaded using the rclone program to avoid the throttling limitation experienced. The layout of the directories in the dataset that was compiled for the identification of StyleGAN images was structured to enable the dataset to be used in training. The Cat-vs-Dog exercise proved that a StyleGAN identification neural network model could be created and showed that images had to be processed for a neural network to be trained on the limited resources available. For the processing of the images, a python script was created using the open-source image processing library OpenCV.
@@ -174,15 +170,24 @@ More layers and dropout layers were added to the different convolutions using ho
 
 \subsubsection{Generalization}
 
-The dataset used in the development of the artefact was very diverse from the start. The diversity in the data allowed the created CNN to generalize the features present in the StyleGAN images that allowed for their detection. But to improve the model further without overfitting the data some image augmentation principles where used to improve the generalization of the data and improve the final artefact's useablitiy.
+The dataset used in the development of the artefact was very diverse from the start. The diversity in the data allowed the created CNN to generalize the features present in the StyleGAN images that allowed for their detection. But to improve the model further without overfitting the data some image augmentation principles were used to improve the generalization of the data and improve the final artefact's usability.
 
-Image augmentation improve the models accuracy while providing more generalization features to the final model \citep{Wang}. The image augmentation process in this artefact was implemented in the training function of the CNN. When training the images passed to the neural network was randomly flipped (vertically \& horizontally), scaled (large \& smaller) and rotated ($180\deg$, $90\deg$, $-180\deg$ \& $-90\deg$). This process increased to overall sample size of the neural network greatly without a increase in total amount of images used in training. It is important to note that this process should not be implemented on the validation set as the validation accuracy metric describes the models learning rate \citep{Wang}. Figure \ref{fig:faug} illustrated a visual representation of how the images was passed to the neural network in training to improve generalization in the final model.
+Image augmentation improves the model's accuracy while providing more generalization features to the final model \citep{Wang}. The image augmentation process in this artefact was implemented in the training function of the CNN. When training the images passed to the neural network was randomly flipped (vertically \& horizontally), scaled (large \& smaller) and rotated ($180\deg$, $90\deg$, $-180\deg$ \& $-90\deg$). This process increased the overall sample size of the neural network greatly without an increase in the total amount of images used in training. It is important to note that this process should not be implemented on the validation set as the validation accuracy metric describes the model learning rate \citep{Wang}. Figure \ref{fig:faug} illustrated a visual representation of how the images were passed to the neural network in training to improve generalization in the final model.
 
 \begin{figure}[H]%
 \centering
 \fbox{\includegraphics[width=0.95\textwidth]{img/faug.png}}%
 \caption{How image augmentation passes the images to the NN}%
 \label{fig:faug}%
+\end{figure}
+
+Figure \ref{fig:fetex} illustrates how the CNN that was created extracts features from the datasets, in its convolution layers. It can be noted that CNN's are proficient in extracting shapes and generalized features from the image.
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/fetex.png}}%
+\caption{Feature extraction by the CNN on a StyleGAN image}%
+\label{fig:fetex}%
 \end{figure}
 
 The final self-created neural network trained on the training dataset could identify the StyleGAN generated images with 81\% accuracy using the test data. The relatively high true accuracy showed promising results but because of the randomness in hot and cold learning and what was identified in the literature review of Chapter \ref{ch2}, the hyperparameters had to be optimized.
@@ -194,17 +199,27 @@ Hot and Cold learning is a viable option for setting neural network parameters w
 
 \subsubsection{Optuna: A hyperparameter optimization framework}
 
-Optuna is a software framework for automated hyperparameter optimization that is specifically developed for machine learning. It has an imperative, define-by-run user interface. The code built with Optuna has a high level of flexibility thanks to its define-by-run Interface, and the user of Optuna may dynamically design the search spaces for the hyperparameters. The phrases "study" and "trial" are used as follows: A Trial is a single execution of the objective function, whereas a Study is optimization based on an objective function \citep{optuna2019}.
+Optuna is a software framework for automated hyperparameter optimization that is specifically developed for machine learning. It has an imperative, define-by-run user interface. The code built with Optuna has a high level of flexibility thanks to its define-by-run Interface, and the user of Optuna may dynamically design the search spaces for the hyperparameters. The phrases "study" and "trial" are used as follows: A Trial is a single execution of the objective function, whereas a Study is an optimization based on an objective function \citep{optuna2019}.
 
 When the Optuna hyperparameter process was started in this sprint the trail function and study functions were created based on the documentation of the Optuna framework. The trail is a single iteration in the larger study and the study is a collection of trails where different combinations of hyperparameters are used to reach the goal of the trail. The study goal for identifying StyleGAN images was to increase the accuracy and \cite{optuna2019} terms it was to move the accuracy metric in a maximum position. The trail function was set to suggest a neural network layer count ranging from a single layer network to a 7 layer network. The optimizer was suggested from a pool of optimizers that perform well with image classification problems as was identified by \cite{bera2020analysis} and \cite{kandel2020comparative}. The Study could be changed to also train full neural networks on each trail but it was decided to train the networks the minimal amount just to evaluate the improvements of the models. When the study was completed the resulting model was then trained on the full dataset.
 
-When the Optuna study was executed on Google Colab a problem was faced regarding available resources. Google Colab provides a free service but can throttle users resources based on the amount of resources used. The policies that Google use to dictate what will amount to throttling is unclear and Google can throttle any account based on their discretion. When the Optuna study started the account used on Google Colab for the development of the artefact was throttled down and exceeded the acceptable usage dictated by Google. To work around the problem the jupyter notebooks was downloaded and run on a physical computer provided by Prof. Tiny du Toit. The computer used for the study included a GPU, namely a GTX 1080 with 8GB dedicated graphics memory.
+Optuna can provide valuable visualizations of how the hyperparameters interact with the model. Some of the visualizations can even improve the understanding of how the hyperparameters interact with the data of the neural network and similarly display what hyperparameters will have the biggest influence on the accuracy of the model. Figure \ref{fig:optparam} indicates what the most important hyperparameters for the model are. This is useful when implementing a combination of hyperparameter tuning and hot and cold learning. The less important aspects can be removed from the Study and more important parameters can be researched for relevance specific to the problem at hand.
+
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=1\textwidth]{img/optparam.png}}%
+\caption{Hyperparameter importance from Optuna Study}%
+\label{fig:optparam}%
+\end{figure}
+
+
+When the Optuna study was executed on Google Colab a problem was faced regarding available resources. Google Colab provides a free service but can throttle users resources based on the number of resources used. The policies that Google use to dictate what will amount to throttling is unclear and Google can throttle any account based on their discretion. When the Optuna study started the account used on Google Colab for the development of the artefact was throttled down and exceeded the acceptable usage dictated by Google. To work around the problem the jupyter notebooks was downloaded and run on a physical computer provided by Prof. Tiny du Toit. The computer used for the study included a GPU, namely a GTX 1080 with 8GB dedicated graphics memory.
 
 \subsubsection{GPU's in machine learning}
 
 It was discovered while developing the artefact that GPU's are required for the training of the neural network. In the development, the Google Colab account was restricted by Google because of the resource limit reached on the account. An investigation into the processing capabilities of GPU's revealed that most GPU's on the market can be used for training neural networks. CNN applied to the problem of detecting StyleGAN images could require more processing power because of the large dataset of images. The GPU used on a local machine was a Nvidea GTX 1080 and the GPU used in Google Colab was a Nvidea K80. With the analysis of GPU's, it was found that a GTX 1080 has a better machine learning coefficient than a K80 \citep{cuda2021}. The Nvidea K80 is evaluated by Nvidea to have a deep learning coefficient of 3.7 and the Nvidea GTX 1080 has a deep learning coefficient of 6.1 \citep{cuda2021}. This is a processing increase of more than double the amount offered by Google Colab. The training that was conducted on the GTX 1080 was completed faster than the training conducted on the K80.
 
-The model created using the Optuna framework for hyperparameter optimization was trained on the full dataset on the local machine as previously stated and training times were increased due to the improved machine learning factor of the improved GPU. The trained hyperparameter optimized model could identify StyleGAN generated images with an accuracy of 97.3\% and true accuracy of 97.6\% as tested with the python script. The results of the Optuna network compared to the network created in Sprint 1 will be further discussed in the Results chapter in this document.
+The model created using the Optuna framework for hyperparameter optimization was trained on the full dataset on the local machine as previously stated and training times were increased due to the improved machine learning factor of the improved GPU. The trained hyperparameter optimized model could identify StyleGAN generated images with an accuracy of 97.30\% and true accuracy of 97.60\% as tested with the python script. The results of the Optuna network compared to the network created in Sprint 1 will be further discussed in the Results chapter in this document.
 
 
 \subsection{Sprint 4}
@@ -219,7 +234,7 @@ Because the neural network model was created using the Python libraries for mach
 
 \begin{figure}[H]%
 \centering
-\fbox{\includegraphics[width=0.95\textwidth]{img/flayout.png}}%
+\fbox{\includegraphics[width=0.60\textwidth]{img/flayout.png}}%
 \caption{Front-end Frameworks implementation comparison}%
 \label{fig:lay}%
 \end{figure}
@@ -228,7 +243,7 @@ To avoid this added complexity an analysis into python web-based frameworks wher
 
 \subsubsection{The Front End}
 
-The Artefact's final form will be the hosted model on the frontend of the application. The following section will illustrate the different front end features of the artefact. The artefacts design was focused to follow a simplistic clear page layout. Minimal controls prevent users from interacting with the web app incorrectly that might lead to errors, and this minimal error handeling had to be implemented.
+The Artefact's final form will be the hosted model on the front end of the application. The following section will illustrate the different front end features of the artefact. The artefacts design was focused to follow a simplistic clear page layout. Minimal controls prevent users from interacting with the web app incorrectly which might lead to errors, and this minimal error handling had to be implemented.
 
 Figure \ref{fig:home} shows the home page of the artefact front end. The simple design and clear instructions will make it easy for users to interact with the website and use it to identify StyleGAN images. Users can click on the upload control to upload images to the neural network model that will identify if the images are StyleGAN generated images. 
 
@@ -239,7 +254,7 @@ Figure \ref{fig:home} shows the home page of the artefact front end. The simple 
 \label{fig:home}%
 \end{figure}
 
-To improve the user-friendliness of the web app some error handling had to created. A page not found page was implemented to navigate the user back to the homepage of the application in the event of misbrowsing from the user. Figure \ref{fig:404} shows the page that will be displayed if a user navigates to an non existing url. a single button is presented that will navigate the user back to the home page of the web app.
+To improve the user-friendliness of the web app some error handling had to create. A page not found page was implemented to navigate the user back to the homepage of the application in the event of error browsing from the user. Figure \ref{fig:404} shows the page that will be displayed if a user navigates to a non-existing URL. a single button is presented that will navigate the user back to the home page of the web app.
 
 \begin{figure}[H]%
 \centering
@@ -248,7 +263,7 @@ To improve the user-friendliness of the web app some error handling had to creat
 \label{fig:404}%
 \end{figure}
 
-To further improve the user experiance a page was created to inform a user in the event of requesting identification without uploading an image. Figure \ref{fig:500} shows the page that will be presented if a user request identification of an image, but did not upload an image. The user can navigate back to the home page of the web app and try to upload an image to restart the process.
+To further improve the user experience a page was created to inform a user in the event of requesting identification without uploading an image. Figure \ref{fig:500} shows the page that will be presented if a user request identification of an image, but did not upload an image. The user can navigate back to the home page of the web app and try to upload an image to restart the process.
 
 \begin{figure}[H]%
 \centering
@@ -261,10 +276,24 @@ Figures \ref{fig:404} and \ref{fig:500} shows how a little user-friendliness con
 
 %This implementation will increase the reach of the website by catering for the average user to effectively utilize the application.
 
-Identified StyleGAN
+Figure \ref{fig:sgex} shows the output page when a user uploaded an image and the model output the users will see after the image is passed through the model. The output in Figure \ref{fig:sgex} shows the label the model gives the imaged based on the model's training and the confidence in its prediction. In Figure \ref{fig:sgex} the uploaded image was a StyleGAN image and the model labels it as such with the confidence of $\cong$100\%. 
 
-Identified FF
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/sgex.png}}%
+\caption{Example of StyleGAN identification}%
+\label{fig:sgex}%
+\end{figure}
 
+Figure \ref{fig:rhex} is an example of a real human image being passed through the model and the label the model returns to the front end of the application. The confidence is also displayed to the users and in this case, the model identifies the chosen image as a real human image with a 93.99\% confidence in its identification.
 
+\begin{figure}[H]%
+\centering
+\fbox{\includegraphics[width=0.95\textwidth]{img/rhex.png}}%
+\caption{Example of real human identification}%
+\label{fig:rhex}%
+\end{figure}
 
 \section{Summary}
+
+The development of the artefact was described in the manner in which the development took place. The 1\textsuperscript{st} Sprint saw the gathering and processing of the datasets. rlcone was used to download the datasets to circumvent the internet limitations that were faced. The folder structure of the dataset was set out because of its importance when training the network. The 2\textsuperscript{nd} Sprint entailed the creation of the initial artefact and the hot and cold learning techniques implemented in the initial model was seen as a proof of concept for the detection of StyleGAN images. In the 3\textsuperscript{rd} Sprint the CNN was optimized using Optuna, a hyperparameter optimization framework. The results of the model were extremely high and the aim of the project was satisfied. The 4\textsuperscript{th} and final Sprint implemented the final model into a useable lightweight front end web application that satisfied the objectives of the project.
